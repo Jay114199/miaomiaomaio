@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>苏长宁的小站 · 导航</title>
+  <!--
+    说明（中文注释）：
+    - 本页面风格参考你提供的“苏长宁”设定：淡雅、脆弱、美感微破碎。
+    - 已避免任何自残或不当内容，仅在视觉与文案上表达氛围感。
+    - 包含三个链接：GitHub、Google、ChatGPT；卡片式展示，兼顾无障碍与键盘导航。
+  -->
+  <style>
+    /* 基础色系：墨绿色（点缀） + 柔粉 + 奶白 */
+    :root{
+      --bg1:#f8faf7;        /* 奶白底 */
+      --bg2:#fff8fb;        /* 柔粉过渡 */
+      --accent-deep:#23433a;/* 墨绿色（深） - 参考长发色 */
+      --accent-soft:#ff9fc1;/* 柔粉点缀 */
+      --card:#ffffff;
+      --muted:#7a6f76;
+      --glass: rgba(255,255,255,0.7);
+    }
+
+    html,body{height:100%;margin:0;font-family:"Noto Sans SC","PingFang SC","Helvetica Neue",Arial,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:#2e2b2d;-webkit-font-smoothing:antialiased;}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:48px 20px;box-sizing:border-box;}
+    .grid{
+      width:100%;
+      max-width:980px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+      align-items:start;
+    }
+
+    /* 顶部介绍，使用更纤细的字重，带一点忧郁感 */
+    .hero{grid-column:1/-1;text-align:center;margin-bottom:6px}
+    .title{margin:0;font-size:1.7rem;color:var(--accent-deep);letter-spacing:0.2px;font-weight:600}
+    .subtitle{margin:8px 0 0 0;color:var(--muted);font-size:0.95rem;opacity:0.95}
+
+    /* 卡片样式：轻玻璃感 + 圆角 + 悬浮效果 */
+    .nav-card{display:block;text-decoration:none;background:linear-gradient(180deg,rgba(255,255,255,0.9),var(--glass));border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(35,67,58,0.06);transition:transform .22s cubic-bezier(.2,.9,.3,1),box-shadow .22s;color:inherit;border:1px solid rgba(255,255,255,0.65);backdrop-filter: blur(6px);}
+    .nav-card:focus, .nav-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(35,67,58,0.12);outline:none}
+
+    .card-top{display:flex;align-items:center;gap:14px}
+    .icon{width:56px;height:56px;flex:0 0 56px;border-radius:12px;display:grid;place-items:center;font-size:26px;color:white;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+    .gh{background:linear-gradient(135deg,#2b2b2b,#4b4b4b)}
+    .gg{background:linear-gradient(135deg,#4285F4,#2AA7F9)}
+    .cg{background:linear-gradient(135deg,#0db28b,#00a371)}
+
+    .card-title{margin:0;font-size:1.05rem;color:#1f1a1c}
+    .card-desc{margin:8px 0 0 0;font-size:0.92rem;color:var(--muted)}
+
+    /* 小尾巴，带一点诗意但不涉及人物隐私或敏感情节 */
+    .footer{grid-column:1/-1;text-align:center;margin-top:12px;color:var(--muted);font-size:0.88rem}
+
+    /* 细小装饰：左上角的“丝带”暗示长发色调 */
+    .ribbon{
+      position:fixed;
+      left:18px;
+      top:18px;
+      display:flex;
+      gap:6px;
+      align-items:center;
+      pointer-events:none;
+      user-select:none;
+    }
+    .r-dot{width:10px;height:10px;border-radius:50%;background:var(--accent-deep);box-shadow:0 4px 12px rgba(35,67,58,0.12)}
+    .r-line{height:2px;width:56px;background:linear-gradient(90deg,var(--accent-deep),var(--accent-soft));border-radius:2px;opacity:0.95}
+
+    @media (max-width:520px){.title{font-size:1.4rem}}
+  </style>
+</head>
+<body>
+  <!-- 丝带装饰（纯视觉） -->
+  <div class="ribbon" aria-hidden="true">
+    <div class="r-dot"></div>
+    <div class="r-line"></div>
+  </div>
+
+  <div class="wrap">
+    <nav class="grid" role="navigation" aria-label="主要导航">
+      <!-- 顶部介绍：保留“苏长宁”人名，语气温柔但克制 -->
+      <header class="hero" aria-hidden="false">
+        <h1 class="title">苏长宁的温柔小站</h1>
+        <p class="subtitle">一点安静的入口 · 轻轻带你去常用的地方（仅为导航，不代表她的故事）</p>
+      </header>
+
+      <!-- 卡片：GitHub -->
+      <!-- 中文注释：GitHub 链接卡片 -->
+      <a class="nav-card" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="打开 GitHub">
+        <div class="card-top">
+          <div class="icon gh" aria-hidden="true">
+            <!-- 简化 GitHub SVG 图标（白色） -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.75-1.56-2.56-.29-5.26-1.28-5.26-5.72 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.2 1.18a11.04 11.04 0 0 1 2.92-.39c.99.01 1.99.13 2.92.39 2.21-1.5 3.19-1.18 3.19-1.18.63 1.65.23 2.87.11 3.17.75.81 1.2 1.84 1.2 3.1 0 4.45-2.71 5.42-5.29 5.71.42.36.8 1.07.8 2.15 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56C20.71 21.4 24 17.09 24 12 24 5.65 18.35.5 12 .5z" fill="#fff"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title">GitHub</h3>
+            <p class="card-desc">代码与项目仓库，记录创作与协作的痕迹。</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- 卡片：Google -->
+      <!-- 中文注释：Google 链接卡片 -->
+      <a class="nav-card" href="https://www.google.com" target="_blank" rel="noopener noreferrer" aria-label="打开 Google">
+        <div class="card-top">
+          <div class="icon gg" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="#fff" d="M24 12v8h12c-.6 4-4 12-12 12-7 0-12-5-12-12s5-12 12-12z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title">Google</h3>
+            <p class="card-desc">检索与工具入口，快速查找想要的答案。</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- 卡片：ChatGPT -->
+      <!-- 中文注释：ChatGPT 链接卡片 -->
+      <a class="nav-card" href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" aria-label="打开 ChatGPT">
+        <div class="card-top">
+          <div class="icon cg" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 5.58 2 10c0 1.9.78 3.64 2.1 4.99L4 22l6.23-2.18C11.5 19.9 11.74 20 12 20c5.52 0 10-3.58 10-8s-4.48-10-10-10z" fill="#fff"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="card-title">ChatGPT</h3>
+            <p class="card-desc">写作、灵感与问答的小助手，温柔地帮你整理想法。</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- 页脚提示：说明这是导航页面 -->
+      <div class="footer">页面以“苏长宁”风格呈现 · 如需替换文字、色彩或添加更多链接，请告诉我</div>
+    </nav>
+  </div>
+
+  <!-- 简单键盘导航脚本（中文注释） -->
+  <script>
+    // 键盘导航：方向键在卡片间切换焦点（增强可访问性）
+    (function(){
+      const links = Array.from(document.querySelectorAll('.nav-card'));
+      if(!links.length) return;
+      let idx = -1;
+      document.addEventListener('keydown', (e)=>{
+        if(!['ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key)) return;
+        e.preventDefault();
+        if(idx === -1) idx = 0;
+        if(e.key === 'ArrowRight' || e.key === 'ArrowDown') idx = (idx + 1) % links.length;
+        if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') idx = (idx - 1 + links.length) % links.length;
+        links[idx].focus();
+      });
+    })();
+  </script>
+</body>
+</html>
