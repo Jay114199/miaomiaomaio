@@ -3,158 +3,394 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>苏长宁的小站 · 导航</title>
+  <title>苏长宁 · 聊天小站</title>
   <!--
-    说明（中文注释）：
-    - 本页面风格参考你提供的“苏长宁”设定：淡雅、脆弱、美感微破碎。
-    - 已避免任何自残或不当内容，仅在视觉与文案上表达氛围感。
-    - 包含三个链接：GitHub、Google、ChatGPT；卡片式展示，兼顾无障碍与键盘导航。
+    更新说明（中文注释）：
+    - “苏长宁”回复采用安全化、含蓄短句，不包含自伤或不当内容。
+    - 每次苏长宁回复末尾会附带：环境：所在场所 + 北京时间（YYYY-MM-DD HH:MM）。
+    - 默认地点为“房间内”，有概率随机选取其他地点（例如：窗边、客厅、图书馆等）。
+    - 所有功能在单个 HTML 文件内实现（前端模拟回复）。
   -->
   <style>
-    /* 基础色系：墨绿色（点缀） + 柔粉 + 奶白 */
+    /* 基础配色（墨绿为主，柔粉点缀） */
     :root{
-      --bg1:#f8faf7;        /* 奶白底 */
-      --bg2:#fff8fb;        /* 柔粉过渡 */
-      --accent-deep:#23433a;/* 墨绿色（深） - 参考长发色 */
-      --accent-soft:#ff9fc1;/* 柔粉点缀 */
-      --card:#ffffff;
+      --bg:#fbfdfc;
+      --panel:#ffffff;
+      --deep-green:#23433a;   /* 墨绿色 */
+      --soft-green:#2f7f6b;
+      --accent-pink:#ff9fc1;  /* 柔粉点缀 */
       --muted:#7a6f76;
       --glass: rgba(255,255,255,0.7);
+      --shadow: 0 8px 24px rgba(35,67,58,0.06);
     }
 
-    html,body{height:100%;margin:0;font-family:"Noto Sans SC","PingFang SC","Helvetica Neue",Arial,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:#2e2b2d;-webkit-font-smoothing:antialiased;}
-    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:48px 20px;box-sizing:border-box;}
-    .grid{
-      width:100%;
-      max-width:980px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
-      align-items:start;
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Noto Sans SC","PingFang SC","Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      background: linear-gradient(160deg,#f6fbf9,var(--bg));
+      color:#222;
     }
 
-    /* 顶部介绍，使用更纤细的字重，带一点忧郁感 */
-    .hero{grid-column:1/-1;text-align:center;margin-bottom:6px}
-    .title{margin:0;font-size:1.7rem;color:var(--accent-deep);letter-spacing:0.2px;font-weight:600}
-    .subtitle{margin:8px 0 0 0;color:var(--muted);font-size:0.95rem;opacity:0.95}
-
-    /* 卡片样式：轻玻璃感 + 圆角 + 悬浮效果 */
-    .nav-card{display:block;text-decoration:none;background:linear-gradient(180deg,rgba(255,255,255,0.9),var(--glass));border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(35,67,58,0.06);transition:transform .22s cubic-bezier(.2,.9,.3,1),box-shadow .22s;color:inherit;border:1px solid rgba(255,255,255,0.65);backdrop-filter: blur(6px);}
-    .nav-card:focus, .nav-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(35,67,58,0.12);outline:none}
-
-    .card-top{display:flex;align-items:center;gap:14px}
-    .icon{width:56px;height:56px;flex:0 0 56px;border-radius:12px;display:grid;place-items:center;font-size:26px;color:white;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
-    .gh{background:linear-gradient(135deg,#2b2b2b,#4b4b4b)}
-    .gg{background:linear-gradient(135deg,#4285F4,#2AA7F9)}
-    .cg{background:linear-gradient(135deg,#0db28b,#00a371)}
-
-    .card-title{margin:0;font-size:1.05rem;color:#1f1a1c}
-    .card-desc{margin:8px 0 0 0;font-size:0.92rem;color:var(--muted)}
-
-    /* 小尾巴，带一点诗意但不涉及人物隐私或敏感情节 */
-    .footer{grid-column:1/-1;text-align:center;margin-top:12px;color:var(--muted);font-size:0.88rem}
-
-    /* 细小装饰：左上角的“丝带”暗示长发色调 */
-    .ribbon{
-      position:fixed;
-      left:18px;
-      top:18px;
+    /* 页面容器 */
+    .wrap{
+      min-height:100%;
       display:flex;
-      gap:6px;
       align-items:center;
-      pointer-events:none;
-      user-select:none;
+      justify-content:center;
+      padding:28px;
+      box-sizing:border-box;
     }
-    .r-dot{width:10px;height:10px;border-radius:50%;background:var(--accent-deep);box-shadow:0 4px 12px rgba(35,67,58,0.12)}
-    .r-line{height:2px;width:56px;background:linear-gradient(90deg,var(--accent-deep),var(--accent-soft));border-radius:2px;opacity:0.95}
 
-    @media (max-width:520px){.title{font-size:1.4rem}}
+    /* 聊天面板 */
+    .chat-wrap{
+      width:100%;
+      max-width:920px;
+      height:80vh;
+      min-height:560px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--panel));
+      border-radius:14px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.7);
+      position:relative;
+    }
+
+    /* 头部 */
+    .chat-header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      background: linear-gradient(90deg, rgba(35,67,58,0.04), rgba(255,159,193,0.02));
+    }
+    .avatar{
+      width:46px;height:46px;border-radius:10px;
+      background: linear-gradient(135deg,var(--deep-green),var(--soft-green));
+      display:grid;place-items:center;color:white;font-weight:700;
+      box-shadow:0 6px 18px rgba(35,67,58,0.08);
+      flex:0 0 46px;
+    }
+    .head-title{font-size:1.05rem;color:var(--deep-green);margin:0}
+    .head-sub{font-size:0.85rem;color:var(--muted);margin:0}
+
+    /* 主体：消息列表 + 占位 */
+    .chat-main{
+      flex:1 1 auto;
+      padding:18px;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:
+        radial-gradient(800px 400px at 10% 10%, rgba(255,159,193,0.03), transparent 10%),
+        radial-gradient(600px 300px at 90% 90%, rgba(47,127,107,0.02), transparent 10%);
+    }
+
+    /* 单条消息样式 */
+    .msg{
+      display:flex;
+      gap:12px;
+      align-items:flex-end;
+      max-width:80%;
+    }
+    .msg.me{ margin-left:auto; flex-direction:row-reverse; }
+    .bubble{
+      padding:10px 14px;
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.04);
+      font-size:0.95rem;
+      line-height:1.35;
+      word-break:break-word;
+      white-space: pre-wrap; /* 保留换行 */
+    }
+    .bubble.me{
+      background: linear-gradient(90deg,var(--soft-green),var(--deep-green));
+      color:#fff;
+      border-bottom-right-radius:6px;
+      border-bottom-left-radius:12px;
+    }
+    .bubble.other{
+      background:#fff;
+      color:#2b2b2b;
+      border:1px solid rgba(0,0,0,0.04);
+      border-bottom-left-radius:6px;
+    }
+    .meta{
+      font-size:0.78rem;color:var(--muted);margin-top:6px;
+    }
+    .who{
+      font-weight:600;color:var(--deep-green);font-size:0.9rem;margin-bottom:4px;
+    }
+
+    /* 环境信息小样式（消息末尾） */
+    .env{
+      display:block;
+      margin-top:8px;
+      font-size:0.78rem;
+      color:var(--muted);
+      opacity:0.95;
+    }
+
+    /* 头像小圆（消息旁） */
+    .mini-avatar{
+      width:36px;height:36px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;
+      flex:0 0 36px;
+      box-shadow:0 6px 18px rgba(35,67,58,0.06);
+    }
+    .mini-avatar.me{ background: linear-gradient(90deg,var(--soft-green),var(--deep-green)); }
+    .mini-avatar.other{ background: linear-gradient(90deg,var(--accent-pink),#ffd6e3); color:var(--deep-green); }
+
+    /* 输入区 */
+    .chat-input{
+      padding:12px;
+      border-top:1px solid rgba(0,0,0,0.04);
+      display:flex;
+      gap:10px;
+      align-items:stretch;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9));
+    }
+    .input-box{
+      flex:1;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      background:linear-gradient(180deg,#fff,#fbfbfb);
+      padding:8px;
+      border-radius:10px;
+      box-shadow:inset 0 1px 0 rgba(0,0,0,0.02);
+    }
+    textarea#msg{
+      width:100%;
+      min-height:44px;
+      max-height:140px;
+      resize:none;
+      border:0;
+      outline:none;
+      font-size:0.95rem;
+      font-family:inherit;
+      background:transparent;
+      color:#222;
+      padding:6px;
+    }
+    .send-btn{
+      background: linear-gradient(90deg,var(--soft-green),var(--deep-green));
+      color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;
+      box-shadow:0 10px 30px rgba(47,127,107,0.12);
+      transition:transform .12s ease, box-shadow .12s;
+    }
+    .send-btn:active{ transform:translateY(1px); box-shadow:0 6px 18px rgba(47,127,107,0.08); }
+
+    /* 小提示 */
+    .hint{font-size:0.82rem;color:var(--muted); text-align:center; padding:8px 0 0 0}
+
+    /* 响应式 */
+    @media (max-width:600px){
+      .chat-wrap{height:92vh; min-height:480px; border-radius:12px}
+      .avatar{width:40px;height:40px}
+    }
   </style>
 </head>
 <body>
-  <!-- 丝带装饰（纯视觉） -->
-  <div class="ribbon" aria-hidden="true">
-    <div class="r-dot"></div>
-    <div class="r-line"></div>
-  </div>
-
   <div class="wrap">
-    <nav class="grid" role="navigation" aria-label="主要导航">
-      <!-- 顶部介绍：保留“苏长宁”人名，语气温柔但克制 -->
-      <header class="hero" aria-hidden="false">
-        <h1 class="title">苏长宁的温柔小站</h1>
-        <p class="subtitle">一点安静的入口 · 轻轻带你去常用的地方（仅为导航，不代表她的故事）</p>
+    <section class="chat-wrap" aria-label="聊天窗口">
+      <!-- 头部：名字与说明 -->
+      <header class="chat-header">
+        <div class="avatar" aria-hidden="true">苏</div>
+        <div>
+          <p class="head-title">苏长宁</p>
+          <p class="head-sub">轻柔、安静 · 这是一个温柔的聊天角落</p>
+        </div>
       </header>
 
-      <!-- 卡片：GitHub -->
-      <!-- 中文注释：GitHub 链接卡片 -->
-      <a class="nav-card" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="打开 GitHub">
-        <div class="card-top">
-          <div class="icon gh" aria-hidden="true">
-            <!-- 简化 GitHub SVG 图标（白色） -->
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.75.41-1.27.75-1.56-2.56-.29-5.26-1.28-5.26-5.72 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.2 1.18a11.04 11.04 0 0 1 2.92-.39c.99.01 1.99.13 2.92.39 2.21-1.5 3.19-1.18 3.19-1.18.63 1.65.23 2.87.11 3.17.75.81 1.2 1.84 1.2 3.1 0 4.45-2.71 5.42-5.29 5.71.42.36.8 1.07.8 2.15 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56C20.71 21.4 24 17.09 24 12 24 5.65 18.35.5 12 .5z" fill="#fff"/>
-            </svg>
-          </div>
+      <!-- 主体：消息列表 -->
+      <main class="chat-main" id="chatMain" role="log" aria-live="polite" aria-atomic="false">
+        <!-- 初始示例消息（示范苏长宁消息含环境信息） -->
+        <div class="msg other" data-ts="">
+          <div class="mini-avatar other" aria-hidden="true">S</div>
           <div>
-            <h3 class="card-title">GitHub</h3>
-            <p class="card-desc">代码与项目仓库，记录创作与协作的痕迹。</p>
+            <div class="who">苏长宁</div>
+            <div class="bubble other">…嗯，你在吗？<span class="env">环境：房间内 + 2026-07-22 12:00</span></div>
+            <div class="meta">现在</div>
           </div>
         </div>
-      </a>
 
-      <!-- 卡片：Google -->
-      <!-- 中文注释：Google 链接卡片 -->
-      <a class="nav-card" href="https://www.google.com" target="_blank" rel="noopener noreferrer" aria-label="打开 Google">
-        <div class="card-top">
-          <div class="icon gg" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path fill="#fff" d="M24 12v8h12c-.6 4-4 12-12 12-7 0-12-5-12-12s5-12 12-12z"/>
-            </svg>
-          </div>
+        <div class="msg me" data-ts="">
+          <div class="mini-avatar me" aria-hidden="true">我</div>
           <div>
-            <h3 class="card-title">Google</h3>
-            <p class="card-desc">检索与工具入口，快速查找想要的答案。</p>
+            <div class="who" style="font-weight:600;color:var(--muted)">你</div>
+            <div class="bubble me">在的。需要我帮忙吗？</div>
+            <div class="meta">现在</div>
           </div>
         </div>
-      </a>
+      </main>
 
-      <!-- 卡片：ChatGPT -->
-      <!-- 中文注释：ChatGPT 链接卡片 -->
-      <a class="nav-card" href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" aria-label="打开 ChatGPT">
-        <div class="card-top">
-          <div class="icon cg" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12 2C6.48 2 2 5.58 2 10c0 1.9.78 3.64 2.1 4.99L4 22l6.23-2.18C11.5 19.9 11.74 20 12 20c5.52 0 10-3.58 10-8s-4.48-10-10-10z" fill="#fff"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="card-title">ChatGPT</h3>
-            <p class="card-desc">写作、灵感与问答的小助手，温柔地帮你整理想法。</p>
-          </div>
+      <!-- 底部输入区 -->
+      <footer class="chat-input" aria-label="消息输入">
+        <div class="input-box">
+          <!-- 中文注释：支持 Shift+Enter 换行，Enter 发送 -->
+          <textarea id="msg" placeholder="写点什么……（Shift+Enter 换行，Enter 发送）" aria-label="消息输入框"></textarea>
         </div>
-      </a>
+        <button class="send-btn" id="sendBtn" aria-label="发送消息">发送</button>
+      </footer>
 
-      <!-- 页脚提示：说明这是导航页面 -->
-      <div class="footer">页面以“苏长宁”风格呈现 · 如需替换文字、色彩或添加更多链接，请告诉我</div>
-    </nav>
+      <!-- 下面的小提示（可选） -->
+      <div class="hint" aria-hidden="true">温柔的界面风格 · 墨绿与柔粉的搭配</div>
+    </section>
   </div>
 
-  <!-- 简单键盘导航脚本（中文注释） -->
   <script>
-    // 键盘导航：方向键在卡片间切换焦点（增强可访问性）
+    // 中文注释：页面交互逻辑全部写在此处（单文件实现）
     (function(){
-      const links = Array.from(document.querySelectorAll('.nav-card'));
-      if(!links.length) return;
-      let idx = -1;
-      document.addEventListener('keydown', (e)=>{
-        if(!['ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key)) return;
-        e.preventDefault();
-        if(idx === -1) idx = 0;
-        if(e.key === 'ArrowRight' || e.key === 'ArrowDown') idx = (idx + 1) % links.length;
-        if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') idx = (idx - 1 + links.length) % links.length;
-        links[idx].focus();
+      const chatMain = document.getElementById('chatMain');
+      const textarea = document.getElementById('msg');
+      const sendBtn = document.getElementById('sendBtn');
+
+      // 配置：默认地点与随机地点池（默认偏向“房间内”）
+      const defaultPlace = '房间内';
+      const otherPlaces = ['窗边','客厅','厨房','阳台','图书馆','咖啡馆','公园长椅','公司附近的街道'];
+
+      // 工具：获取北京时间（UTC+8）格式 YYYY-MM-DD HH:MM
+      function beijingNowLabel(){
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const bj = new Date(utc + 8 * 3600000);
+        const Y = bj.getFullYear();
+        const M = String(bj.getMonth() + 1).padStart(2,'0');
+        const D = String(bj.getDate()).padStart(2,'0');
+        const h = String(bj.getHours()).padStart(2,'0');
+        const m = String(bj.getMinutes()).padStart(2,'0');
+        return `${Y}-${M}-${D} ${h}:${m}`;
+      }
+
+      // 随机地点选择：大概率默认“房间内”，小概率选其他随机地点
+      function choosePlace(){
+        const r = Math.random();
+        if(r < 0.8) return defaultPlace; // 80% 房间内
+        // 否则随机选一个其他地点
+        return otherPlaces[Math.floor(Math.random() * otherPlaces.length)];
+      }
+
+      // 滚动到底部，平滑
+      function scrollToBottom(){
+        chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+      }
+
+      // 创建消息 DOM 并插入
+      function appendMessage({who='other', name='苏长宁', text='', timeLabel=''}){
+        const msg = document.createElement('div');
+        msg.className = 'msg ' + (who === 'me' ? 'me' : 'other');
+        msg.setAttribute('data-ts', Date.now());
+
+        const avatar = document.createElement('div');
+        avatar.className = 'mini-avatar ' + (who === 'me' ? 'me' : 'other');
+        avatar.setAttribute('aria-hidden','true');
+        avatar.textContent = who === 'me' ? '我' : (name ? name[0] : 'S');
+
+        const body = document.createElement('div');
+
+        const whoEl = document.createElement('div');
+        whoEl.className = 'who';
+        whoEl.textContent = who === 'me' ? '你' : name || '对方';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble ' + (who === 'me' ? 'me' : 'other');
+        // 使用 textContent 保证安全，并保留换行（CSS white-space: pre-wrap）
+        bubble.textContent = text;
+
+        // 如果这是苏长宁的消息，并且 text 中没有环境信息，则在 bubble 内添加一个小 env 元素（已格式化）
+        if(who !== 'me' && name === '苏长宁'){
+          const envEl = document.createElement('span');
+          envEl.className = 'env';
+          envEl.textContent = `环境：${choosePlace()} + ${beijingNowLabel()}`;
+          bubble.appendChild(envEl); // append 作为子节点，借助 pre-wrap 效果显示在新行
+        }
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.textContent = timeLabel || beijingNowLabel();
+
+        body.appendChild(whoEl);
+        body.appendChild(bubble);
+        body.appendChild(meta);
+
+        msg.appendChild(avatar);
+        msg.appendChild(body);
+
+        chatMain.appendChild(msg);
+        scrollToBottom();
+      }
+
+      // 模拟安全化的“苏长宁”回复（简短、含蓄、温柔）
+      function simulatedReply(userText){
+        const lower = (userText || '').toLowerCase();
+        let reply = '嗯。';
+        if(!userText || userText.trim().length === 0){
+          reply = '我在的。';
+        } else if(lower.includes('谢谢') || lower.includes('谢谢你')){
+          reply = '嗯……不客气。';
+        } else if(lower.includes('你好')){
+          reply = '你好。';
+        } else if(lower.includes('在吗')){
+          reply = '在的。';
+        } else if(userText.length > 60){
+          reply = '我听着，你说的我会记着。';
+        } else {
+          const variants = [
+            '嗯……我在听。',
+            '好的，我知道了。',
+            '我会尽力的。',
+            '那就这样吧。'
+          ];
+          reply = variants[Math.floor(Math.random() * variants.length)];
+        }
+
+        // 轻微延迟，模拟真实对话
+        setTimeout(() => {
+          // 这里传入 name='苏长宁'，appendMessage 会在消息内自动附带环境信息（地点+北京时间）
+          appendMessage({ who: 'other', name: '苏长宁', text: reply, timeLabel: beijingNowLabel() });
+        }, 600 + Math.random() * 800);
+      }
+
+      // 发送消息（用户）
+      function sendMessage(){
+        const text = textarea.value.replace(/\u00A0/g, ' ').trim();
+        if(!text) return;
+        appendMessage({ who: 'me', text: text, timeLabel: beijingNowLabel() });
+        textarea.value = '';
+        textarea.focus();
+
+        // 模拟苏长宁的回复（安全化）
+        simulatedReply(text);
+      }
+
+      // 事件：按钮点击
+      sendBtn.addEventListener('click', sendMessage);
+
+      // 事件：键盘（Enter 发送，Shift+Enter 换行）
+      textarea.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' && !e.shiftKey){
+          e.preventDefault();
+          sendMessage();
+        }
       });
+
+      // 快速键：Esc 清空输入框
+      textarea.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){
+          textarea.value = '';
+        }
+      });
+
+      // 初始滚动到底部
+      window.addEventListener('load', scrollToBottom);
+
+      // 便捷：允许外部快速追加消息（测试用）
+      window.appendChatMessage = appendMessage;
     })();
   </script>
 </body>
